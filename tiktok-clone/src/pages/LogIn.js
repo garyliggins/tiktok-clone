@@ -1,11 +1,22 @@
-import { auth, provider } from "lib/firebase";
+import db, { auth, provider } from "lib/firebase";
 
 
-export default function LogIn() {
+export default function LogIn({setUser,setNewUser}) {
 
  async function signIn() {
   const data = await auth.signInWithPopup(provider)
     console.log(data)
+    if (data) {
+      checkUsername(data.user.uid);
+      setUser(data)
+    }
+  }
+
+ async function checkUsername(uid) {
+    const usernameRef = db.collection('usernames').where('uid', '==', uid);
+   const querySnapshot = await usernameRef.get();
+   console.log(querySnapshot);
+   setNewUser(querySnapshot.empty)
   }
 
   return (
