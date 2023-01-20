@@ -8,7 +8,7 @@ export default function LogIn({setUser,setNewUser}) {
     console.log(data)
     if (data) {
       checkUsername(data.user.uid);
-      setUser(data)
+      setUser(data.user)
     }
   }
 
